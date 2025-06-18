@@ -1,5 +1,5 @@
 #科学插件调整
-#CONFIG_PACKAGE_luci-app-homeproxy=y
+#CONFIG_PACKAGE_luci-app-homeproxy=n
 CONFIG_PACKAGE_luci-app-daed=y
 CONFIG_PACKAGE_luci-app-dae=y
 #增加插件
@@ -24,18 +24,10 @@ CONFIG_PACKAGE_luci-app-ddns-go=y
 CONFIG_PACKAGE_luci-app-pushbot=y
 #CONFIG_PACKAGE_luci-app-mwan3=y
 
-
-# Argon 主题配置
-CONFIG_PACKAGE_luci-app-argon-config=y
-CONFIG_PACKAGE_luci-i18n-argon-config-zh-cn=y
-
 # NATMap 透明代理工具
 CONFIG_PACKAGE_natmapt=y
 CONFIG_PACKAGE_luci-app-natmapt=y
 CONFIG_PACKAGE_luci-i18n-natmapt-zh-cn=y
-
-# Sing-Box 代理工具
-CONFIG_PACKAGE_sing-box=y
 
 #删除插件
 CONFIG_PACKAGE_luci-app-wol=n
@@ -140,18 +132,18 @@ CONFIG_PACKAGE_bash=y
 #passwall2 配置
 #CONFIG_PACKAGE_luci-app-passwall2=y
 #CONFIG_PACKAGE_xray-core=n
-# CONFIG_PACKAGE_luci-app-passwall2_Iptables_Transparent_Proxy is not set
+#CONFIG_PACKAGE_luci-app-passwall2_Iptables_Transparent_Proxy is not set
 #CONFIG_PACKAGE_luci-app-passwall2_Nftables_Transparent_Proxy=y
 #CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy=y
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Hysteria is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_NaiveProxy is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Server is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Simple_Obfs is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Hysteria is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_NaiveProxy is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Server is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Simple_Obfs is not set
 #CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_SingBox=y
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_tuic_client is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_V2ray_Plugin is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_tuic_client is not set
+#CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_V2ray_Plugin is not set

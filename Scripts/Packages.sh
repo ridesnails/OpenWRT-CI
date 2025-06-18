@@ -76,9 +76,6 @@ UPDATE_PACKAGE "luci-app-pushbot" "zzsj0928/luci-app-pushbot" "master"
 UPDATE_PACKAGE "argon-config" "sbwml/luci-app-argon-config" "openwrt-24.10"
 UPDATE_PACKAGE "luci-app-natmapt" "muink/luci-app-natmapt" "master"
 UPDATE_PACKAGE "natmapt" "muink/openwrt-natmapt" "master"
-UPDATE_PACKAGE "sing-box" "reF1nd/sing-box" "dev-next"
-
-
 
 #更新软件包版本
 UPDATE_VERSION() {
@@ -132,7 +129,7 @@ UPDATE_VERSION() {
 
 #删除官方的默认插件
 rm -rf ../feeds/luci/applications/luci-app-{passwall*,mosdns,dockerman,dae*,bypass*}
-rm -rf ../feeds/packages/net/{v2ray-geodata,dae*,sing-box}
+rm -rf ../feeds/packages/net/{v2ray-geodata,dae*}
 
 #更新golang为最新版
 rm -rf ../feeds/packages/lang/golang
