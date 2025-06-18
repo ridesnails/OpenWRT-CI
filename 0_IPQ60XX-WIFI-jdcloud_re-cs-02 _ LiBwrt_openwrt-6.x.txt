@@ -1,0 +1,405 @@
+﻿2025-06-18T02:34:43.7503329Z Current runner version: '2.325.0'
+2025-06-18T02:34:43.7539114Z ##[group]Operating System
+2025-06-18T02:34:43.7540550Z Ubuntu
+2025-06-18T02:34:43.7541498Z 22.04.5
+2025-06-18T02:34:43.7542314Z LTS
+2025-06-18T02:34:43.7543150Z ##[endgroup]
+2025-06-18T02:34:43.7543922Z ##[group]Runner Image
+2025-06-18T02:34:43.7545052Z Image: ubuntu-22.04
+2025-06-18T02:34:43.7545953Z Version: 20250609.1.0
+2025-06-18T02:34:43.7547838Z Included Software: https://github.com/actions/runner-images/blob/ubuntu22/20250609.1/images/ubuntu/Ubuntu2204-Readme.md
+2025-06-18T02:34:43.7550725Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20250609.1
+2025-06-18T02:34:43.7552342Z ##[endgroup]
+2025-06-18T02:34:43.7554047Z ##[group]Runner Image Provisioner
+2025-06-18T02:34:43.7555157Z 2.0.437.1
+2025-06-18T02:34:43.7556024Z ##[endgroup]
+2025-06-18T02:34:43.7560694Z ##[group]GITHUB_TOKEN Permissions
+2025-06-18T02:34:43.7563520Z Actions: write
+2025-06-18T02:34:43.7564847Z Attestations: write
+2025-06-18T02:34:43.7566117Z Checks: write
+2025-06-18T02:34:43.7567015Z Contents: write
+2025-06-18T02:34:43.7567986Z Deployments: write
+2025-06-18T02:34:43.7568845Z Discussions: write
+2025-06-18T02:34:43.7570284Z Issues: write
+2025-06-18T02:34:43.7571289Z Metadata: read
+2025-06-18T02:34:43.7572221Z Models: read
+2025-06-18T02:34:43.7573131Z Packages: write
+2025-06-18T02:34:43.7573982Z Pages: write
+2025-06-18T02:34:43.7574902Z PullRequests: write
+2025-06-18T02:34:43.7575780Z RepositoryProjects: write
+2025-06-18T02:34:43.7576768Z SecurityEvents: write
+2025-06-18T02:34:43.7577676Z Statuses: write
+2025-06-18T02:34:43.7578522Z ##[endgroup]
+
+2025-06-18T02:41:29.0615381Z Collecting package info: feeds/packages/net/siit[M
+2025-06-18T02:41:29.0703947Z Collecting package info: feeds/packages/net/simple-obfs[M
+2025-06-18T02:41:29.0794725Z Collecting package info: feeds/packages/net/sing-box[M
+2025-06-18T02:41:29.0882104Z Collecting package info: feeds/packages/net/slirp4netns[M
+
+2025-06-18T02:42:01.4865653Z Installing package 'siit' from packages
+2025-06-18T02:42:01.4891649Z Installing package 'simple-obfs' from packages
+2025-06-18T02:42:01.4924040Z Installing package 'sing-box' from packages
+2025-06-18T02:42:01.4952899Z Installing package 'sipcalc' from packages
+2025-06-18T02:42:01.4979505Z Installing package 'sispmctl' from packages
+2025-06-18T02:42:01.5012929Z Installing package 'slide-switch' from packages
+
+2025-06-18T02:42:06.8333560Z Search directory: argon-config
+2025-06-18T02:42:06.8661416Z Not fonud directory: argon-config
+2025-06-18T02:42:06.8675866Z Cloning into 'luci-app-argon-config'...
+2025-06-18T02:42:06.9369529Z fatal: could not read Username for 'https://github.com': No such device or address
+2025-06-18T02:42:06.9395429Z  
+2025-06-18T02:42:06.9395747Z Search directory: luci-app-natmapt
+2025-06-18T02:42:06.9725519Z Not fonud directory: luci-app-natmapt
+2025-06-18T02:42:06.9738712Z Cloning into 'luci-app-natmapt'...
+2025-06-18T02:42:07.1672687Z  
+2025-06-18T02:42:07.1672939Z Search directory: natmapt
+2025-06-18T02:42:07.2003623Z Not fonud directory: natmapt
+2025-06-18T02:42:07.2019306Z Cloning into 'openwrt-natmapt'...
+2025-06-18T02:42:07.3526761Z  
+2025-06-18T02:42:07.3527103Z Search directory: sing-box
+2025-06-18T02:42:07.3867865Z Delete directory: ../feeds/packages/net/sing-box
+2025-06-18T02:42:07.3880455Z Cloning into 'sing-box'...
+2025-06-18T02:42:07.7695945Z Cloning into '../feeds/packages/lang/golang'...
+2025-06-18T02:42:07.9739308Z  
+2025-06-18T02:42:07.9755156Z qca-nss-drv has been fixed!
+2025-06-18T02:42:07.9755492Z  
+2025-06-18T02:42:07.9771121Z qca-nss-pbuf has been fixed!
+2025-06-18T02:42:08.0036020Z  
+2025-06-18T02:42:08.0051179Z tailscale has been fixed!
+2025-06-18T02:42:08.0077167Z ##[group]Run . $GITHUB_WORKSPACE/Scripts/function.sh
+2025-06-18T02:42:08.0077770Z [36;1m. $GITHUB_WORKSPACE/Scripts/function.sh[0m
+2025-06-18T02:42:08.0078044Z [36;1mcd ./wrt/[0m
+2025-06-18T02:42:08.0078226Z [36;1m[0m
+2025-06-18T02:42:08.0078414Z [36;1mgenerate_config && cat .config[0m
+2025-06-18T02:42:08.0078645Z [36;1m[0m
+2025-06-18T02:42:08.0078844Z [36;1m$GITHUB_WORKSPACE/Scripts/Settings.sh[0m
+2025-06-18T02:42:08.0079095Z [36;1m[0m
+2025-06-18T02:42:08.0079332Z [36;1mmake defconfig -j$(nproc) && make clean -j$(nproc)[0m
+2025-06-18T02:42:08.0114232Z shell: /usr/bin/bash -e {0}
+2025-06-18T02:42:08.0114448Z env:
+2025-06-18T02:42:08.0114827Z   GITHUB_TOKEN: ***
+2025-06-18T02:42:08.0115064Z   WRT_CONFIG: IPQ60XX-WIFI-jdcloud_re-cs-02
+2025-06-18T02:42:08.0115332Z   WRT_THEME: argon
+2025-06-18T02:42:08.0115509Z   WRT_NAME: QWRT
+2025-06-18T02:42:08.0115683Z   WRT_SSID: QWRT
+
+2025-06-18T02:42:08.0370844Z 
+2025-06-18T02:42:08.0370944Z # Sing-Box 代理工具
+2025-06-18T02:42:08.0371130Z CONFIG_PACKAGE_sing-box=y
+2025-06-18T02:42:08.0371267Z 
+2025-06-18T02:42:08.0371354Z #删除插件
+2025-06-18T02:42:08.0371522Z CONFIG_PACKAGE_luci-app-wol=n
+2025-06-18T02:42:08.0371758Z #参数调整
+2025-06-18T02:42:08.0371909Z CONFIG_CCACHE=y
+2025-06-18T02:42:08.0372073Z CONFIG_DEVEL=y
+2025-06-18T02:42:08.0372266Z CONFIG_TARGET_MULTI_PROFILE=y
+2025-06-18T02:42:08.0372492Z CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+2025-06-18T02:42:08.0372725Z CONFIG_TARGET_ROOTFS_INITRAMFS=n
+2025-06-18T02:42:08.0372955Z #内核调整
+2025-06-18T02:42:08.0373119Z CONFIG_PACKAGE_kmod-dsa=y
+2025-06-18T02:42:08.0373330Z CONFIG_PACKAGE_kmod-fs-btrfs=y
+2025-06-18T02:42:08.0373554Z CONFIG_PACKAGE_kmod-fuse=y
+2025-06-18T02:42:08.0373775Z CONFIG_PACKAGE_kmod-inet-diag=y
+2025-06-18T02:42:08.0374007Z CONFIG_PACKAGE_kmod-mtd-rw=y
+2025-06-18T02:42:08.0374233Z CONFIG_PACKAGE_kmod-netlink-diag=y
+2025-06-18T02:42:08.0374477Z CONFIG_PACKAGE_kmod-nft-bridge=y
+2025-06-18T02:42:08.0374712Z CONFIG_PACKAGE_kmod-nft-core=y
+2025-06-18T02:42:08.0374932Z CONFIG_PACKAGE_kmod-nft-fib=y
+2025-06-18T02:42:08.0375156Z CONFIG_PACKAGE_kmod-nft-fullcone=y
+2025-06-18T02:42:08.0375396Z CONFIG_PACKAGE_kmod-nft-nat=y
+2025-06-18T02:42:08.0375792Z CONFIG_PACKAGE_kmod-nft-netdev=y
+2025-06-18T02:42:08.0376035Z CONFIG_PACKAGE_kmod-nft-offload=y
+2025-06-18T02:42:08.0376384Z CONFIG_PACKAGE_kmod-nft-queue=y
+2025-06-18T02:42:08.0376609Z CONFIG_PACKAGE_kmod-nft-socket=y
+2025-06-18T02:42:08.0376839Z CONFIG_PACKAGE_kmod-nft-tproxy=y
+2025-06-18T02:42:08.0377121Z CONFIG_PACKAGE_kmod-sound-core=y
+2025-06-18T02:42:08.0377406Z CONFIG_PACKAGE_kmod-tun=y
+2025-06-18T02:42:08.0377619Z CONFIG_PACKAGE_kmod-usb3=y
+2025-06-18T02:42:08.0377839Z CONFIG_PACKAGE_kmod-usb-audio=y
+2025-06-18T02:42:08.0378177Z CONFIG_PACKAGE_kmod-usb-core=y
+2025-06-18T02:42:08.0378401Z CONFIG_PACKAGE_kmod-usb-dwc3=y
+2025-06-18T02:42:08.0378624Z CONFIG_PACKAGE_kmod-usb-net=y
+2025-06-18T02:42:08.0378863Z CONFIG_PACKAGE_kmod-usb-net-cdc-eem=y
+2025-06-18T02:42:08.0379121Z CONFIG_PACKAGE_kmod-usb-net-cdc-ether=y
+2025-06-18T02:42:08.0379387Z CONFIG_PACKAGE_kmod-usb-net-cdc-mbim=y
+2025-06-18T02:42:08.0379648Z CONFIG_PACKAGE_kmod-usb-net-cdc-ncm=y
+2025-06-18T02:42:08.0380083Z CONFIG_PACKAGE_kmod-usb-net-cdc-subset=y
+2025-06-18T02:42:08.0380378Z CONFIG_PACKAGE_kmod-usb-net-huawei-cdc-ncm=y
+2025-06-18T02:42:08.0380659Z CONFIG_PACKAGE_kmod-usb-net-ipheth=y
+2025-06-18T02:42:08.0380914Z CONFIG_PACKAGE_kmod-usb-net-qmi-wwan=y
+2025-06-18T02:42:08.0381172Z CONFIG_PACKAGE_kmod-usb-net-rndis=y
+2025-06-18T02:42:08.0381424Z CONFIG_PACKAGE_kmod-usb-net-rtl8150=y
+2025-06-18T02:42:08.0381668Z CONFIG_PACKAGE_kmod-usb-net-rtl8152=y
+2025-06-18T02:42:08.0381912Z CONFIG_PACKAGE_kmod-usb-ohci=y
+2025-06-18T02:42:08.0382141Z CONFIG_PACKAGE_kmod-usb-storage=y
+2025-06-18T02:42:08.0382394Z CONFIG_PACKAGE_kmod-usb-storage-extras=y
+2025-06-18T02:42:08.0382655Z CONFIG_PACKAGE_kmod-usb-storage-uas=y
+2025-06-18T02:42:08.0382898Z CONFIG_PACKAGE_kmod-usb-uhci=y
+2025-06-18T02:42:08.0383120Z CONFIG_PACKAGE_kmod-usb-xhci=y
+2025-06-18T02:42:08.0383340Z CONFIG_PACKAGE_kmod-wireguard=y
+2025-06-18T02:42:08.0383587Z #组件调整
+2025-06-18T02:42:08.0383749Z CONFIG_PACKAGE_autocore=y
+2025-06-18T02:42:08.0383955Z CONFIG_PACKAGE_automount=y
+2025-06-18T02:42:08.0384325Z CONFIG_PACKAGE_blkid=y
+2025-06-18T02:42:08.0384547Z CONFIG_PACKAGE_cfdisk=y
+2025-06-18T02:42:08.0384740Z CONFIG_PACKAGE_cgdisk=y
+2025-06-18T02:42:08.0384958Z CONFIG_PACKAGE_coremark=y
+2025-06-18T02:42:08.0385319Z CONFIG_PACKAGE_cpufreq=y
+2025-06-18T02:42:08.0385665Z CONFIG_PACKAGE_dmesg=y
+2025-06-18T02:42:08.0385999Z CONFIG_PACKAGE_fdisk=y
+2025-06-18T02:42:08.0386321Z CONFIG_PACKAGE_gdisk=y
+2025-06-18T02:42:08.0386636Z CONFIG_PACKAGE_htop=y
+2025-06-18T02:42:08.0386960Z CONFIG_PACKAGE_iperf3=y
+2025-06-18T02:42:08.0387292Z CONFIG_PACKAGE_ip-full=y
+2025-06-18T02:42:08.0387629Z CONFIG_PACKAGE_lsblk=y
+2025-06-18T02:42:08.0387960Z CONFIG_PACKAGE_luci-base=y
+2025-06-18T02:42:08.0388331Z CONFIG_PACKAGE_luci-compat=y
+2025-06-18T02:42:08.0388709Z CONFIG_PACKAGE_luci-lib-base=y
+2025-06-18T02:42:08.0389092Z CONFIG_PACKAGE_luci-lib-ipkg=y
+2025-06-18T02:42:08.0389488Z CONFIG_PACKAGE_luci-lua-runtime=y
+2025-06-18T02:42:08.0390076Z CONFIG_PACKAGE_luci-proto-bonding=y
+2025-06-18T02:42:08.0390511Z CONFIG_PACKAGE_luci-proto-relay=y
+2025-06-18T02:42:08.0390823Z CONFIG_PACKAGE_mmc-utils=y
+2025-06-18T02:42:08.0391043Z CONFIG_PACKAGE_nand-utils=y
+2025-06-18T02:42:08.0391276Z CONFIG_PACKAGE_openssh-sftp-server=y
+2025-06-18T02:42:08.0391520Z CONFIG_PACKAGE_sfdisk=y
+2025-06-18T02:42:08.0391718Z CONFIG_PACKAGE_sgdisk=y
+2025-06-18T02:42:08.0391840Z 
+2025-06-18T02:42:08.0391958Z #文件系统
+2025-06-18T02:42:08.0392133Z CONFIG_PACKAGE_kmod-fs-ext4=y
+2025-06-18T02:42:08.0392360Z CONFIG_PACKAGE_kmod-fs-f2fs=y
+2025-06-18T02:42:08.0392576Z CONFIG_PACKAGE_e2fsprogs=y
+2025-06-18T02:42:08.0392863Z CONFIG_PACKAGE_f2fsck=y
+2025-06-18T02:42:08.0393104Z CONFIG_PACKAGE_mkf2fs=y
+2025-06-18T02:42:08.0393310Z #其他调整
+2025-06-18T02:42:08.0393483Z CONFIG_PACKAGE_openssh-sftp-server=y
+2025-06-18T02:42:08.0393843Z CONFIG_PACKAGE_kmod-tcp-bbr=y
+2025-06-18T02:42:08.0394066Z #CONFIG_DEFAULT_tcp_bbr=y
+2025-06-18T02:42:08.0394299Z CONFIG_DEFAULT_tcp_cubic=y
+2025-06-18T02:42:08.0394529Z CONFIG_PACKAGE_v2ray-geodata-updater=y
+2025-06-18T02:42:08.0394781Z CONFIG_PACKAGE_tcpdump=y
+2025-06-18T02:42:08.0395158Z CONFIG_PACKAGE_block-mount=y
+2025-06-18T02:42:08.0395385Z CONFIG_PACKAGE_btop=y
+2025-06-18T02:42:08.0395733Z CONFIG_PACKAGE_iperf3=y
+2025-06-18T02:42:08.0395919Z CONFIG_PACKAGE_luci=y
+2025-06-18T02:42:08.0396134Z CONFIG_LUCI_LANG_zh_Hans=y
+2025-06-18T02:42:08.0396353Z CONFIG_PACKAGE_default-settings=y
+2025-06-18T02:42:08.0396598Z CONFIG_PACKAGE_default-settings-chn=y
+2025-06-18T02:42:08.0396838Z CONFIG_PACKAGE_bash=y
+2025-06-18T02:42:08.0396953Z 
+2025-06-18T02:42:08.0397062Z #passwall2 配置
+2025-06-18T02:42:08.0397255Z #CONFIG_PACKAGE_luci-app-passwall2=y
+2025-06-18T02:42:08.0397502Z #CONFIG_PACKAGE_xray-core=n
+2025-06-18T02:42:08.0397833Z # CONFIG_PACKAGE_luci-app-passwall2_Iptables_Transparent_Proxy is not set
+2025-06-18T02:42:08.0398282Z #CONFIG_PACKAGE_luci-app-passwall2_Nftables_Transparent_Proxy=y
+2025-06-18T02:42:08.0398653Z #CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy=y
+2025-06-18T02:42:08.0399016Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Hysteria is not set
+2025-06-18T02:42:08.0399422Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_NaiveProxy is not set
+2025-06-18T02:42:08.0400093Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client is not set
+2025-06-18T02:42:08.0400746Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Server is not set
+2025-06-18T02:42:08.0401234Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client is not set
+2025-06-18T02:42:08.0401715Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server is not set
+2025-06-18T02:42:08.0402198Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client is not set
+2025-06-18T02:42:08.0402695Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server is not set
+2025-06-18T02:42:08.0403155Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Simple_Obfs is not set
+2025-06-18T02:42:08.0403522Z #CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_SingBox=y
+2025-06-18T02:42:08.0403990Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_tuic_client is not set
+2025-06-18T02:42:08.0404488Z # CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_V2ray_Plugin is not set
+2025-06-18T02:42:08.0404856Z #NSS驱动相关
+2025-06-18T02:42:08.0405039Z CONFIG_NSS_FIRMWARE_VERSION_11_4=n
+2025-06-18T02:42:08.0405394Z # CONFIG_NSS_FIRMWARE_VERSION_12_5 is not set
+2025-06-18T02:42:08.0405845Z CONFIG_NSS_FIRMWARE_VERSION_12_2=y
+2025-06-18T02:42:08.0406251Z CONFIG_PACKAGE_kmod-qca-nss-dp=y
+2025-06-18T02:42:08.0406665Z CONFIG_PACKAGE_kmod-qca-nss-drv=y
+2025-06-18T02:42:08.0407117Z CONFIG_PACKAGE_kmod-qca-nss-drv-bridge-mgr=y
+2025-06-18T02:42:08.0407603Z CONFIG_PACKAGE_kmod-qca-nss-drv-vlan=y
+2025-06-18T02:42:08.0407957Z CONFIG_PACKAGE_kmod-qca-nss-drv-igs=y
+2025-06-18T02:42:08.0408333Z #CONFIG_PACKAGE_kmod-qca-nss-drv-map-t=y
+2025-06-18T02:42:08.0408605Z CONFIG_PACKAGE_kmod-qca-nss-drv-pppoe=y
+2025-06-18T02:42:08.0408942Z CONFIG_PACKAGE_kmod-qca-nss-drv-pptp=y
+2025-06-18T02:42:08.0409236Z CONFIG_PACKAGE_kmod-qca-nss-drv-qdisc=y
+2025-06-18T02:42:08.0409491Z CONFIG_PACKAGE_kmod-qca-nss-ecm=y
+2025-06-18T02:42:08.0409746Z CONFIG_PACKAGE_kmod-qca-nss-macsec=y
+2025-06-18T02:42:08.0410271Z CONFIG_PACKAGE_kmod-qca-nss-drv-l2tpv2=y
+2025-06-18T02:42:08.0410559Z CONFIG_PACKAGE_kmod-qca-nss-drv-lag-mgr=y
+2025-06-18T02:42:08.0410802Z #eBPF
+2025-06-18T02:42:08.0410957Z CONFIG_DEVEL=y
+2025-06-18T02:42:08.0411144Z CONFIG_KERNEL_DEBUG_INFO=y
+2025-06-18T02:42:08.0411362Z CONFIG_KERNEL_DEBUG_INFO_REDUCED=n
+2025-06-18T02:42:08.0411598Z CONFIG_KERNEL_DEBUG_INFO_BTF=y
+2025-06-18T02:42:08.0411818Z CONFIG_KERNEL_CGROUPS=y
+2025-06-18T02:42:08.0412017Z CONFIG_KERNEL_CGROUP_BPF=y
+2025-06-18T02:42:08.0412223Z CONFIG_KERNEL_BPF_EVENTS=y
+2025-06-18T02:42:08.0412503Z CONFIG_BPF_TOOLCHAIN_HOST=y
+2025-06-18T02:42:08.0412721Z CONFIG_KERNEL_XDP_SOCKETS=y
+2025-06-18T02:42:08.0412950Z CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
+2025-06-18T02:42:08.0413209Z CONFIG_KERNEL_SKB_RECYCLER=y
+2025-06-18T02:42:08.0413439Z CONFIG_KERNEL_SKB_RECYCLER_MULTI_CPU=y
+2025-06-18T02:42:31.3333961Z 
+2025-06-18T02:42:31.8693984Z 
+2025-06-18T02:42:34.5316193Z WARNING: Makefile 'package/feeds/luci/luci-app-homeproxy/Makefile' has a dependency on 'sing-box', which does not exist
+2025-06-18T02:42:34.5479103Z WARNING: Makefile 'package/feeds/packages/mqttled/Makefile' has a dependency on 'python3-netifaces', which does not exist
+2025-06-18T02:42:34.5684743Z WARNING: Makefile 'package/feeds/packages/shadow/Makefile' has a build dependency on 'libxcrypt', which does not exist
+2025-06-18T02:42:36.9390145Z .config:88:warning: override: TARGET_MULTI_PROFILE changes choice state
+2025-06-18T02:42:36.9390862Z .config:234:warning: override: NSS_FIRMWARE_VERSION_12_5 changes choice state
+2025-06-18T02:42:37.1213616Z #
+2025-06-18T02:42:37.1213868Z # configuration written to .config
+2025-06-18T02:42:37.1214143Z #
+2025-06-18T02:42:45.9217147Z WARNING: Makefile 'package/feeds/luci/luci-app-homeproxy/Makefile' has a dependency on 'sing-box', which does not exist
+2025-06-18T02:42:45.9381026Z WARNING: Makefile 'package/feeds/packages/mqttled/Makefile' has a dependency on 'python3-netifaces', which does not exist
+2025-06-18T02:42:45.9583300Z WARNING: Makefile 'package/feeds/packages/shadow/Makefile' has a build dependency on 'libxcrypt', which does not exist
+2025-06-18T02:42:47.2937706Z  make[1] clean
+2025-06-18T02:42:49.8544274Z ##[group]Run cd ./wrt/
+2025-06-18T02:42:49.8544518Z [36;1mcd ./wrt/[0m
+2025-06-18T02:42:49.8544698Z [36;1m[0m
+2025-06-18T02:42:49.8544879Z [36;1mmake download -j$(nproc)[0m
+2025-06-18T02:42:49.8579767Z shell: /usr/bin/bash -e {0}
+2025-06-18T02:42:49.8580161Z env:
+2025-06-18T02:42:49.8580541Z   GITHUB_TOKEN: ***
+2025-06-18T02:42:49.8580760Z   WRT_CONFIG: IPQ60XX-WIFI-jdcloud_re-cs-02
+2025-06-18T02:42:49.8581016Z   WRT_THEME: argon
+2025-06-18T02:42:49.8581197Z   WRT_NAME: QWRT
+2025-06-18T02:42:49.8581365Z   WRT_SSID: QWRT
+2025-06-18T02:42:49.8581537Z   WRT_WORD: 88888888
+2025-06-18T02:42:49.8581715Z   WRT_IP: 172.16.3.1
+2025-06-18T02:42:49.8581885Z   WRT_PW: 无
+2025-06-18T02:42:49.8582104Z   WRT_REPO: https://github.com/LiBwrt/openwrt-6.x.git
+2025-06-18T02:42:49.8582390Z   WRT_BRANCH: k6.12-nss
+2025-06-18T02:42:49.8582569Z   WRT_PACKAGE: 
+2025-06-18T02:42:49.8582740Z   WRT_TEST: false
+2025-06-18T02:42:49.8582925Z   WRT_DIR: wrt
+2025-06-18T02:42:49.8583141Z   CI_NAME: QCA-6.12-Libwrt-IPQ60XX-WIFI
+2025-06-18T02:42:49.8583381Z   WRT_ARCH: qualcommax_ipq60xx
+2025-06-18T02:42:49.8583591Z   WRT_DATE: 25.06.18-10.40.56
+2025-06-18T02:42:49.8583791Z   WRT_MARK: ridesnails
+2025-06-18T02:42:49.8583981Z   WRT_VER: LiBwrt-k6.12-nss
+2025-06-18T02:42:49.8584180Z   WRT_TARGET: QUALCOMMAX
+2025-06-18T02:42:49.8584367Z   WRT_KVER: none
+2025-06-18T02:42:49.8584532Z   WRT_LIST: none
+2025-06-18T02:42:49.8584687Z   WRT_CI: 
+2025-06-18T02:42:49.8584844Z   WRT_HASH: 74ba793
+2025-06-18T02:42:49.8585015Z ##[endgroup]
+2025-06-18T02:42:56.0946408Z WARNING: Makefile 'package/feeds/luci/luci-app-homeproxy/Makefile' has a dependency on 'sing-box', which does not exist
+2025-06-18T02:42:56.1108542Z WARNING: Makefile 'package/feeds/packages/mqttled/Makefile' has a dependency on 'python3-netifaces', which does not exist
+2025-06-18T02:42:56.1316443Z WARNING: Makefile 'package/feeds/packages/shadow/Makefile' has a build dependency on 'libxcrypt', which does not exist
+2025-06-18T02:43:03.6568878Z WARNING: Makefile 'package/feeds/luci/luci-app-homeproxy/Makefile' has a dependency on 'sing-box', which does not exist
+2025-06-18T02:43:03.6736348Z WARNING: Makefile 'package/feeds/packages/mqttled/Makefile' has a dependency on 'python3-netifaces', which does not exist
+2025-06-18T02:43:03.6943802Z WARNING: Makefile 'package/feeds/packages/shadow/Makefile' has a build dependency on 'libxcrypt', which does not exist
+2025-06-18T02:43:05.0215661Z make[2]: Entering directory '/home/runner/work/OpenWRT-CI/OpenWRT-CI/wrt/scripts/config'
+2025-06-18T02:43:05.0216111Z make[2]: 'conf' is up to date.
+2025-06-18T02:43:05.0216564Z make[2]: Leaving directory '/home/runner/work/OpenWRT-CI/OpenWRT-CI/wrt/scripts/config'
+2025-06-18T02:43:08.7063215Z time: target/linux/prereq#0.10#0.06#0.15
+2025-06-18T02:43:10.0039363Z  make[1] tools/flock/compile
+2025-06-18T02:43:12.5636015Z  make[2] -C tools/flock compile
+2025-06-18T02:43:12.8295076Z  make[1] tools/download
+2025-06-18T02:43:15.4059676Z  make[2] -C tools/automake download
+2025-06-18T02:43:15.4060890Z  make[2] -C tools/autoconf-archive download
+
+2025-06-18T02:45:25.0575609Z   WRT_VER: LiBwrt-k6.12-nss
+2025-06-18T02:45:25.0575815Z   WRT_TARGET: QUALCOMMAX
+2025-06-18T02:45:25.0576001Z   WRT_KVER: none
+2025-06-18T02:45:25.0576165Z   WRT_LIST: none
+2025-06-18T02:45:25.0576319Z   WRT_CI: 
+2025-06-18T02:45:25.0576475Z   WRT_HASH: 74ba793
+2025-06-18T02:45:25.0576648Z ##[endgroup]
+2025-06-18T02:45:31.3665563Z WARNING: Makefile 'package/feeds/luci/luci-app-homeproxy/Makefile' has a dependency on 'sing-box', which does not exist
+2025-06-18T02:45:31.3826913Z WARNING: Makefile 'package/feeds/packages/mqttled/Makefile' has a dependency on 'python3-netifaces', which does not exist
+2025-06-18T02:45:31.4030169Z WARNING: Makefile 'package/feeds/packages/shadow/Makefile' has a build dependency on 'libxcrypt', which does not exist
+2025-06-18T02:45:32.7325739Z make[2]: Entering directory '/home/runner/work/OpenWRT-CI/OpenWRT-CI/wrt/scripts/config'
+2025-06-18T02:45:32.7326237Z make[2]: 'conf' is up to date.
+2025-06-18T02:45:32.7326870Z make[2]: Leaving directory '/home/runner/work/OpenWRT-CI/OpenWRT-CI/wrt/scripts/config'
+2025-06-18T02:45:34.9776983Z  make[1] world
+2025-06-18T02:45:37.5613739Z  make[2] tools/compile
+2025-06-18T02:45:37.5913442Z  make[2] package/cleanup
+2025-06-18T02:45:40.1577943Z  make[3] -C tools/libdeflate compile
+2025-06-18T02:45:40.1578853Z  make[3] -C tools/flock compile
+2025-06-18T02:45:43.0426315Z  make[3] -C tools/zstd compile
+
+2025-06-18T04:57:51.8335076Z   WRT_CI: 
+2025-06-18T04:57:51.8335366Z   WRT_HASH: 74ba793
+2025-06-18T04:57:51.8335659Z ##[endgroup]
+2025-06-18T04:57:58.2418928Z WARNING: Makefile 'package/feeds/luci/luci-app-homeproxy/Makefile' has a dependency on 'sing-box', which does not exist
+2025-06-18T04:57:58.2588779Z WARNING: Makefile 'package/feeds/packages/mqttled/Makefile' has a dependency on 'python3-netifaces', which does not exist
+2025-06-18T04:57:58.2798199Z WARNING: Makefile 'package/feeds/packages/shadow/Makefile' has a build dependency on 'libxcrypt', which does not exist
+2025-06-18T04:57:59.6292758Z  make[1] clean
+2025-06-18T04:58:14.5672207Z ##[group]Run softprops/action-gh-release@v2
+2025-06-18T04:58:14.5672654Z with:
+2025-06-18T04:58:14.5673166Z   tag_name: QCA-6.12-Libwrt-IPQ60XX-WIFI-IPQ60XX-WIFI-jdcloud_re-cs-02_25.06.18-10.40.56
+2025-06-18T04:58:14.5673706Z   files: ./wrt/upload/*.*
+2025-06-18T04:58:14.5675460Z   body: 这是个平台固件包，内含多个设备！
+请注意选择你需要的设备固件！
+不要问，刷就完事了！
+
+全系带开源硬件加速，别问了！
+
+源码：https://github.com/LiBwrt/openwrt-6.x.git
+分支：k6.12-nss
+提交：74ba793
+
+配置：IPQ60XX-WIFI-jdcloud_re-cs-02
+平台：QUALCOMMAX
+
+登录地址：172.16.3.1
+登录密码：无
+
+WIFI名称：QWRT
+WIFI密码：88888888
+
+内核版本：6.12.31
+插件列表：luci-app-argon-config luci-app-autoreboot luci-app-cpufreq luci-app-dae luci-app-daed luci-app-ddns-go luci-app-firewall luci-app-natmapt luci-app-package-manager luci-app-pushbot luci-app-sqm luci-app-ttyd luci-app-upnp luci-app-vlmcsd luci-app-wolplus luci-app-zerotier luci-theme-argon 
+
+2025-06-18T04:58:14.5677374Z   token: ***
+2025-06-18T04:58:14.5677608Z env:
+2025-06-18T04:58:14.5678006Z   GITHUB_TOKEN: ***
+2025-06-18T04:58:14.5678466Z   WRT_CONFIG: IPQ60XX-WIFI-jdcloud_re-cs-02
+2025-06-18T04:58:14.5678800Z   WRT_THEME: argon
+2025-06-18T04:58:14.5679127Z   WRT_NAME: QWRT
+2025-06-18T04:58:14.5679403Z   WRT_SSID: QWRT
+2025-06-18T04:58:14.5679651Z   WRT_WORD: 88888888
+2025-06-18T04:58:14.5680224Z   WRT_IP: 172.16.3.1
+2025-06-18T04:58:14.5680531Z   WRT_PW: 无
+2025-06-18T04:58:14.5680826Z   WRT_REPO: https://github.com/LiBwrt/openwrt-6.x.git
+2025-06-18T04:58:14.5681233Z   WRT_BRANCH: k6.12-nss
+2025-06-18T04:58:14.5681550Z   WRT_PACKAGE: 
+2025-06-18T04:58:14.5681780Z   WRT_TEST: false
+2025-06-18T04:58:14.5682067Z   WRT_DIR: wrt
+2025-06-18T04:58:14.5682378Z   CI_NAME: QCA-6.12-Libwrt-IPQ60XX-WIFI
+2025-06-18T04:58:14.5682717Z   WRT_ARCH: qualcommax_ipq60xx
+2025-06-18T04:58:14.5683015Z   WRT_DATE: 25.06.18-10.40.56
+2025-06-18T04:58:14.5683346Z   WRT_MARK: ridesnails
+2025-06-18T04:58:14.5683634Z   WRT_VER: LiBwrt-k6.12-nss
+2025-06-18T04:58:14.5683926Z   WRT_TARGET: QUALCOMMAX
+2025-06-18T04:58:14.5684251Z   WRT_KVER: 6.12.31
+2025-06-18T04:58:14.5685389Z   WRT_LIST: luci-app-argon-config luci-app-autoreboot luci-app-cpufreq luci-app-dae luci-app-daed luci-app-ddns-go luci-app-firewall luci-app-natmapt luci-app-package-manager luci-app-pushbot luci-app-sqm luci-app-ttyd luci-app-upnp luci-app-vlmcsd luci-app-wolplus luci-app-zerotier luci-theme-argon 
+2025-06-18T04:58:14.5686469Z   WRT_CI: 
+2025-06-18T04:58:14.5686630Z   WRT_HASH: 74ba793
+2025-06-18T04:58:14.5686800Z ##[endgroup]
+2025-06-18T04:58:14.8922108Z 👩‍🏭 Creating new GitHub release for tag QCA-6.12-Libwrt-IPQ60XX-WIFI-IPQ60XX-WIFI-jdcloud_re-cs-02_25.06.18-10.40.56...
+2025-06-18T04:58:15.4443724Z ⬆️ Uploading LiBwrt-k6.12-nss-qualcommax-ipq60xx-jdcloud_re-cs-02-squashfs-sysupgrade-25.06.18-10.40.56.bin...
+2025-06-18T04:58:15.4448487Z ⬆️ Uploading LiBwrt-k6.12-nss-qualcommax-ipq60xx-jdcloud_re-cs-02-squashfs-factory-25.06.18-10.40.56.bin...
+2025-06-18T04:58:15.4449560Z ⬆️ Uploading LiBwrt-k6.12-nss-qualcommax-ipq60xx-25.06.18-10.40.56.manifest...
+2025-06-18T04:58:15.4451034Z ⬆️ Uploading Config-IPQ60XX-WIFI-jdcloud_re-cs-02-LiBwrt-k6.12-nss-25.06.18-10.40.56.txt...
+2025-06-18T04:58:15.8262796Z ✅ Uploaded LiBwrt-k6.12-nss-qualcommax-ipq60xx-25.06.18-10.40.56.manifest
+2025-06-18T04:58:15.8286134Z ✅ Uploaded Config-IPQ60XX-WIFI-jdcloud_re-cs-02-LiBwrt-k6.12-nss-25.06.18-10.40.56.txt
+2025-06-18T04:58:17.9884632Z ✅ Uploaded LiBwrt-k6.12-nss-qualcommax-ipq60xx-jdcloud_re-cs-02-squashfs-sysupgrade-25.06.18-10.40.56.bin
+2025-06-18T04:58:18.0258099Z ✅ Uploaded LiBwrt-k6.12-nss-qualcommax-ipq60xx-jdcloud_re-cs-02-squashfs-factory-25.06.18-10.40.56.bin
+2025-06-18T04:58:18.0267267Z 🎉 Release ready at https://github.com/ridesnails/OpenWRT-CI/releases/tag/QCA-6.12-Libwrt-IPQ60XX-WIFI-IPQ60XX-WIFI-jdcloud_re-cs-02_25.06.18-10.40.56
+2025-06-18T04:59:27.2436462Z Post job cleanup.
+2025-06-18T04:59:27.3992088Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/OpenWRT-CI/OpenWRT-CI --files-from manifest.txt --use-compress-program zstdmt
+2025-06-18T05:00:12.7425461Z Sent 0 of 1009025457 (0.0%), 0.0 MBs/sec
+2025-06-18T05:00:13.7425621Z Sent 539263409 of 1009025457 (53.4%), 257.1 MBs/sec
+2025-06-18T05:00:14.6415056Z Sent 1009025457 of 1009025457 (100.0%), 331.9 MBs/sec
+2025-06-18T05:00:14.8730366Z Cache saved with key: qualcommax_ipq60xx-afc12474f387f52f0a5bf6ff12b80c9f9e887dd63846acdf55a76837aa5998f9-25.06.18-10.40.56
+2025-06-18T05:00:14.8869745Z Post job cleanup.
+2025-06-18T05:00:14.9915100Z [command]/usr/bin/git version
+2025-06-18T05:00:14.9954429Z git version 2.49.0
+2025-06-18T05:00:14.9999444Z Temporarily overriding HOME='/home/runner/work/_temp/70ab2a73-d8f9-4b50-8528-d7c1bd92ea30' before making global git config changes
+2025-06-18T05:00:15.0000484Z Adding repository directory to the temporary git global config as a safe directory
+2025-06-18T05:00:15.0014254Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/OpenWRT-CI/OpenWRT-CI
+2025-06-18T05:00:15.0055218Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-06-18T05:00:15.0090190Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-06-18T05:00:15.0333288Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-06-18T05:00:15.0360449Z http.https://github.com/.extraheader
+2025-06-18T05:00:15.0372953Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-06-18T05:00:15.0407535Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-06-18T05:00:15.0748353Z Cleaning up orphan processes

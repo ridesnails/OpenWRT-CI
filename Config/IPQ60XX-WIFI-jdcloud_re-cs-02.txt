@@ -42,3 +42,5 @@ CONFIG_ATH11K_MEM_PROFILE_512M=n
 
 CONFIG_PACKAGE_sqm-scripts-nss=y
 CONFIG_PACKAGE_kmod-qca-nss-crypto=y
+
+CONFIG_PACKAGE_luci-app-homeproxy=n
