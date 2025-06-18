@@ -38,6 +38,11 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
+      - name: Build host tools (libdeflate)
+        run: |
+          cd openwrt
+          make tools/install -j$(nproc) V=s
+
       - name: Select sing-box only
         run: |
           cd openwrt
