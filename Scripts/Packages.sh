@@ -78,7 +78,7 @@ UPDATE_PACKAGE "luci-app-natmapt" "muink/luci-app-natmapt" "master"
 UPDATE_PACKAGE "natmapt" "muink/openwrt-natmapt" "master"
 
 #自定义sing-box - 使用UPDATE_PACKAGE确保正确处理
-UPDATE_PACKAGE "sing-box" "reF1nd/sing-box" "dev-next" "name"
+# UPDATE_PACKAGE "sing-box" "reF1nd/sing-box" "dev-next"
 
 #更新软件包版本
 UPDATE_VERSION() {
