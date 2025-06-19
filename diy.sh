@@ -56,6 +56,9 @@ fi
 cd package/
 $GITHUB_WORKSPACE/Scripts/Packages.sh
 $GITHUB_WORKSPACE/Scripts/Handles.sh
+
+# 在这里再次确保自定义包覆盖feeds包
+cp -rf $GITHUB_WORKSPACE/package/* ./
 cd ..
 
 generate_config

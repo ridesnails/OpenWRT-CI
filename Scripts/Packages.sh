@@ -77,6 +77,9 @@ UPDATE_PACKAGE "argon-config" "sbwml/luci-app-argon-config" "openwrt-24.10"
 UPDATE_PACKAGE "luci-app-natmapt" "muink/luci-app-natmapt" "master"
 UPDATE_PACKAGE "natmapt" "muink/openwrt-natmapt" "master"
 
+#自定义sing-box - 使用UPDATE_PACKAGE确保正确处理
+UPDATE_PACKAGE "sing-box" "reF1nd/sing-box" "dev-next" "name"
+
 #更新软件包版本
 UPDATE_VERSION() {
 	local PKG_NAME=$1
@@ -127,16 +130,19 @@ UPDATE_VERSION() {
 #不编译xray-core
 # sed -i 's/+xray-core//' luci-app-passwall2/Makefile
 
-#删除官方的默认插件
+#删除官方的默认插件（包含sing-box）
 rm -rf ../feeds/luci/applications/luci-app-{passwall*,mosdns,dockerman,dae*,bypass*}
-rm -rf ../feeds/packages/net/{v2ray-geodata,dae*}
+rm -rf ../feeds/packages/net/{v2ray-geodata,dae*,sing-box}
+
+# 确保删除所有可能的sing-box相关包
+find ../feeds/ -name "*sing-box*" -type d -exec rm -rf {} + 2>/dev/null || true
 
 #更新golang为最新版
 rm -rf ../feeds/packages/lang/golang
 git clone -b 24.x https://github.com/sbwml/packages_lang_golang ../feeds/packages/lang/golang
 
-
-cp -r $GITHUB_WORKSPACE/package/* ./
+# 复制自定义包（确保覆盖）
+cp -rf $GITHUB_WORKSPACE/package/* ./
 
 #coremark修复
 sed -i 's/mkdir \$(PKG_BUILD_DIR)\/\$(ARCH)/mkdir -p \$(PKG_BUILD_DIR)\/\$(ARCH)/g' ../feeds/packages/utils/coremark/Makefile
