@@ -34,7 +34,8 @@ jobs:
       matrix:
         CONFIG: [RE-CS-02-WIFI]
         
-        SOURCE: [VIKINGYFY/immortalwrt]        
+        SOURCE: [VIKINGYFY/immortalwrt]
+        BRANCH: [main]
 #        SOURCE: [LiBwrt/openwrt-6.x]
 #        SOURCE: [davidtall/LiBwrt-openwrt-6.x]
 #        BRANCH: [k6.12-nss]
