@@ -1,5 +1,5 @@
 #CI项目
-name: QCA-6.12-LiBwrt
+name: 编译京东云雅典娜
 
 #CI计划
 on:

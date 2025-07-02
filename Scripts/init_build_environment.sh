@@ -194,7 +194,7 @@ function install_dependencies() {
 		build-essential bzip2 ccache cmake cpio curl device-tree-compiler ecj fakeroot \
 		fastjar flex gawk gettext genisoimage git gnutls-dev gperf haveged help2man \
 		intltool irqbalance jq libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev \
-		libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libreadline-dev libssl-dev \
+		libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libreadline-dev libssl-dev libxcrypt-dev \
 		libtool libyaml-dev libz-dev lrzsz msmtp nano ninja-build p7zip p7zip-full patch \
 		pkgconf libpython3-dev python3 python3-pip python3-cryptography python3-docutils \
 		python3-ply python3-pyelftools python3-requests qemu-utils quilt re2c rsync scons \
