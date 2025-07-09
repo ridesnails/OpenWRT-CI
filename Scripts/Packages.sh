@@ -54,6 +54,7 @@ UPDATE_PACKAGE "argon-config" "sbwml/luci-app-argon-config" "openwrt-24.10"
 UPDATE_PACKAGE "natmapt" "muink/openwrt-natmapt" "master"
 UPDATE_PACKAGE "luci-app-natmapt" "muink/luci-app-natmapt" "master"
 
+
 #UPDATE_PACKAGE "kucat" "sirpdboy/luci-theme-kucat" "js"
 
 #UPDATE_PACKAGE "homeproxy" "VIKINGYFY/homeproxy" "main"
