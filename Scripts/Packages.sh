@@ -125,8 +125,63 @@ UPDATE_VERSION() {
 #UPDATE_VERSION "sing-box"
 #UPDATE_VERSION "tailscale"
 
-
-
+#获取sing-box beta版本相关信息
+get_sing_box_beta() {
+    echo "正在获取 sing-box beta 版本信息..."
+    
+    latest_beta=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep -oP '"tag_name":\s*"\K[^"]+' | grep beta | head -n1)
+    
+    if [ -z "$latest_beta" ]; then
+        echo "未找到 beta 版本，使用稳定版本"
+        return 1
+    fi
+    
+    echo "找到最新beta版本: $latest_beta"
+    
+    # 构建下载URL
+    tar_url="https://github.com/SagerNet/sing-box/archive/refs/tags/$latest_beta.tar.gz"
+    
+    # 下载并计算哈希
+    echo "正在下载并计算哈希..."
+    wget -q -O /tmp/sing-box-beta.tar.gz "$tar_url"
+    
+    if [ $? -ne 0 ]; then
+        echo "下载失败"
+        return 1
+    fi
+    
+    hash=$(sha256sum /tmp/sing-box-beta.tar.gz | awk '{print $1}')
+    rm -f /tmp/sing-box-beta.tar.gz
+    
+    echo "版本: $latest_beta"
+    echo "SHA256: $hash"
+    
+    # 更新Makefile
+    SING_BOX_MAKEFILE="$GITHUB_WORKSPACE/package/sing-box/Makefile"
+    
+    if [ -f "$SING_BOX_MAKEFILE" ]; then
+        echo "正在更新 Makefile..."
+        sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${latest_beta#v}/" "$SING_BOX_MAKEFILE"
+        sed -i "s/PKG_HASH:=.*/PKG_HASH:=${hash}/" "$SING_BOX_MAKEFILE"
+        
+        # 同时更新源码URL为正确的格式
+        sed -i "s|PKG_SOURCE_URL:=.*|PKG_SOURCE_URL:=https://codeload.github.com/SagerNet/sing-box/tar.gz/v\$(PKG_VERSION)?|" "$SING_BOX_MAKEFILE"
+        
+        echo "✅ 已成功更新 sing-box Makefile:"
+        echo "   版本: ${latest_beta#v}"
+        echo "   哈希: ${hash}"
+        
+        # 验证更新结果
+        echo "验证更新结果:"
+        grep "PKG_VERSION:=" "$SING_BOX_MAKEFILE"
+        grep "PKG_HASH:=" "$SING_BOX_MAKEFILE"
+        
+    else
+        echo "❌ 错误: 找不到 sing-box Makefile 文件: $SING_BOX_MAKEFILE"
+        return 1
+    fi
+}
+get_sing_box_beta
 #不编译xray-core
 #sed -i 's/+xray-core//' luci-app-passwall2/Makefile
 
