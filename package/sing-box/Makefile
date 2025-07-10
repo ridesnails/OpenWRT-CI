@@ -42,7 +42,13 @@ GO_PKG_LDFLAGS_X:=$(GO_PKG)/constant.Version=$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
-
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	cd $(PKG_BUILD_DIR); \
+	if [ ! -f go.mod ]; then \
+		go mod init github.com/sagernet/sing-box; \
+	fi
+endef
 define Package/sing-box
   SECTION:=net
   CATEGORY:=Network
