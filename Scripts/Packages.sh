@@ -161,7 +161,10 @@ get_sing_box_beta() {
     
     if [ -f "$SING_BOX_MAKEFILE" ]; then
         echo "正在更新 Makefile..."
-        sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${latest_beta#v}/" "$SING_BOX_MAKEFILE"
+        # 将 beta 版本号转换为 OpenWrt 兼容格式，例如 1.12.0-beta.33 -> 1.12.0~beta33
+        orig_ver="${latest_beta#v}"
+        compat_ver=$(echo "$orig_ver" | sed -E 's/-beta\.([0-9]+)/~beta\1/')
+        sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=$compat_ver/" "$SING_BOX_MAKEFILE"
         sed -i "s/PKG_HASH:=.*/PKG_HASH:=${hash}/" "$SING_BOX_MAKEFILE"
         
         # 同时更新源码URL为正确的格式
