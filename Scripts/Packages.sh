@@ -167,8 +167,10 @@ get_sing_box_beta() {
         sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=$compat_ver/" "$SING_BOX_MAKEFILE"
         sed -i "s/PKG_HASH:=.*/PKG_HASH:=${hash}/" "$SING_BOX_MAKEFILE"
         
-        # 同时更新源码URL为正确的格式
-        sed -i "s|PKG_SOURCE_URL:=.*|PKG_SOURCE_URL:=https://codeload.github.com/SagerNet/sing-box/tar.gz/v\$(PKG_VERSION)?|" "$SING_BOX_MAKEFILE"
+        # 更新源码URL为原始GitHub archive URL
+        sed -i "s|PKG_SOURCE_URL:=.*|PKG_SOURCE_URL:=https://github.com/SagerNet/sing-box/archive/refs/tags/$latest_beta.tar.gz|" "$SING_BOX_MAKEFILE"
+        # 更新源码文件名为原始版本号对应文件
+        sed -i "s|PKG_SOURCE:=.*|PKG_SOURCE:=sing-box-${orig_ver}.tar.gz|" "$SING_BOX_MAKEFILE"
         
         echo "✅ 已成功更新 sing-box Makefile:"
         echo "   版本: ${latest_beta#v}"
