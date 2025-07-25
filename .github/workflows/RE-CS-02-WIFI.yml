@@ -1,0 +1,413 @@
+#专用于re-cs-02硬件的WiFi固件构建工作流
+name: RE-CS-02-WIFI
+
+#触发条件
+on:
+  #自动构建：每日凌晨4点触发
+  schedule:
+    - cron: '0 20 * * *'  # UTC时间20点，北京时间4点
+  #自动同步：当Auto-Clean运行完成后
+  workflow_run:
+    workflows: ["Auto-Clean"]
+    types:
+      - completed
+  #手动触发
+  workflow_dispatch:
+    inputs:
+      CUSTOM_PACKAGES:
+        description: '自定义软件包，多个请用空格分隔'
+        required: false
+        type: string
+        default: ''
+      CUSTOM_LAN_IP:
+        description: '自定义LAN IP地址'
+        required: false
+        type: string
+        default: '192.168.10.1'
+      CUSTOM_SSID:
+        description: '自定义WiFi名称'
+        required: false
+        type: string
+        default: 'RE-CS-02-WIFI'
+      CUSTOM_PASSWORD:
+        description: '自定义WiFi密码'
+        required: false
+        type: string
+        default: '12345678'
+      SYNC_UPSTREAM:
+        description: '是否同步上游代码'
+        required: false
+        type: boolean
+        default: true
+      TEST_ONLY:
+        description: '仅生成配置文件，不编译固件'
+        default: false
+        required: false
+        type: boolean
+
+#权限设置
+permissions: write-all
+
+#环境变量
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  TZ: Asia/Shanghai
+
+#构建任务
+jobs:
+  build:
+    name: Build RE-CS-02 WiFi Firmware
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 同步上游代码
+        if: ${{ inputs.SYNC_UPSTREAM == true || github.event_name == 'schedule' }}
+        run: |
+          echo "同步上游代码..."
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          # 添加上游仓库
+          git remote add upstream https://github.com/VIKINGYFY/immortalwrt.git || true
+          
+          # 获取上游更新
+          git fetch upstream main
+          
+          # 检查是否有新的提交
+          LOCAL=$(git rev-parse HEAD)
+          REMOTE=$(git rev-parse upstream/main)
+          
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            echo "发现上游更新，准备同步..."
+            # 这里只同步必要的文件，避免冲突
+            echo "UPSTREAM_UPDATED=true" >> $GITHUB_ENV
+          else
+            echo "上游代码无更新"
+            echo "UPSTREAM_UPDATED=false" >> $GITHUB_ENV
+          fi
+
+      - name: 安装构建依赖
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo -E apt-get -qq update
+          sudo -E apt-get -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+          bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
+          git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev \
+          libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz \
+          mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pip libpython3-dev qemu-utils \
+          rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
+
+      - name: 释放磁盘空间
+        uses: endersonmenezes/free-disk-space@v2
+        with:
+          remove_android: true
+          remove_dotnet: true
+          remove_haskell: true
+          remove_tool_cache: true
+          remove_swap: true
+          remove_packages: "azure-cli google-cloud-cli microsoft-edge-stable google-chrome-stable firefox postgresql* temurin-* *llvm* mysql* dotnet-sdk-*"
+          remove_packages_one_command: true
+          remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/share/chromium /usr/local/share/powershell"
+          testing: false
+
+      - name: 初始化构建环境
+        run: |
+          # 设置环境变量
+          WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d_%H.%M.%S")
+          WRT_REPO='https://github.com/VIKINGYFY/immortalwrt.git'
+          WRT_BRANCH='main'
+          WRT_CONFIG='RE-CS-02-WIFI'
+          WRT_NAME='${{ inputs.CUSTOM_SSID || 'RE-CS-02-WIFI' }}'
+          WRT_SSID='${{ inputs.CUSTOM_SSID || 'RE-CS-02-WIFI' }}'
+          WRT_WORD='${{ inputs.CUSTOM_PASSWORD || '12345678' }}'
+          WRT_IP='${{ inputs.CUSTOM_LAN_IP || '192.168.10.1' }}'
+          WRT_THEME='argon'
+          WRT_TYPE='re-cs-02'
+          WRT_ARCH='ipq60xx'
+          WRT_TARGET='QUALCOMMAX'
+          WRT_DIR='wrt'
+          CI_NAME='RE-CS-02-WIFI'
+          
+          # 保存环境变量到GITHUB_ENV
+          echo "WRT_DATE=$WRT_DATE" >> $GITHUB_ENV
+          echo "WRT_REPO=$WRT_REPO" >> $GITHUB_ENV
+          echo "WRT_BRANCH=$WRT_BRANCH" >> $GITHUB_ENV
+          echo "WRT_CONFIG=$WRT_CONFIG" >> $GITHUB_ENV
+          echo "WRT_NAME=$WRT_NAME" >> $GITHUB_ENV
+          echo "WRT_SSID=$WRT_SSID" >> $GITHUB_ENV
+          echo "WRT_WORD=$WRT_WORD" >> $GITHUB_ENV
+          echo "WRT_IP=$WRT_IP" >> $GITHUB_ENV
+          echo "WRT_THEME=$WRT_THEME" >> $GITHUB_ENV
+          echo "WRT_TYPE=$WRT_TYPE" >> $GITHUB_ENV
+          echo "WRT_ARCH=$WRT_ARCH" >> $GITHUB_ENV
+          echo "WRT_TARGET=$WRT_TARGET" >> $GITHUB_ENV
+          echo "WRT_DIR=$WRT_DIR" >> $GITHUB_ENV
+          echo "CI_NAME=$CI_NAME" >> $GITHUB_ENV
+
+      - name: 克隆源代码
+        run: |
+          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO $WRT_DIR
+          cd $WRT_DIR
+          echo "当前OpenWrt版本信息："
+          cat feeds.conf.default
+          git log --oneline -n 5
+
+      - name: 更新feeds
+        run: |
+          cd $WRT_DIR
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+      - name: 添加自定义软件包
+        run: |
+          cd $WRT_DIR/package
+          
+          # 添加DAE相关包
+          echo "添加DAE相关软件包..."
+          if [ ! -d "dae" ]; then
+            cp -rf $GITHUB_WORKSPACE/package/dae ./
+          fi
+          if [ ! -d "luci-app-dae" ]; then
+            cp -rf $GITHUB_WORKSPACE/package/luci-app-dae ./
+          fi
+          if [ ! -d "v2ray-geodata" ]; then
+            cp -rf $GITHUB_WORKSPACE/package/v2ray-geodata ./
+          fi
+          
+          # 运行自定义包管理脚本
+          echo "运行自定义包管理脚本..."
+          if [ -f "$GITHUB_WORKSPACE/Scripts/Packages.sh" ]; then
+            $GITHUB_WORKSPACE/Scripts/Packages.sh
+          fi
+          
+          # 运行处理脚本
+          if [ -f "$GITHUB_WORKSPACE/Scripts/Handles.sh" ]; then
+            $GITHUB_WORKSPACE/Scripts/Handles.sh
+          fi
+
+      - name: 应用自定义配置
+        run: |
+          cd $WRT_DIR
+          
+          # 创建RE-CS-02专用配置
+          cat > .config << EOF
+          # 目标平台配置
+          CONFIG_TARGET_qualcommax=y
+          CONFIG_TARGET_qualcommax_ipq60xx=y
+          CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_jdcloud_re-cs-02=y
+          
+          # 内核配置
+          CONFIG_KERNEL_ARM_PMU=y
+          CONFIG_KERNEL_CFQ_GROUP_IOSCHED=y
+          CONFIG_KERNEL_CGROUP_DEVICE=y
+          CONFIG_KERNEL_CGROUP_FREEZER=y
+          CONFIG_KERNEL_CGROUP_HUGETLB=y
+          CONFIG_KERNEL_CGROUP_NET_PRIO=y
+          CONFIG_KERNEL_CGROUP_PERF=y
+          CONFIG_KERNEL_HUGETLBFS=y
+          CONFIG_KERNEL_HUGETLB_PAGE=y
+          CONFIG_KERNEL_MEMCG_SWAP_ENABLED=y
+          CONFIG_KERNEL_NET_CLS_CGROUP=y
+          CONFIG_KERNEL_PERF_EVENTS=y
+          
+          # NSS配置
+          CONFIG_IPQ_MEM_PROFILE_512=y
+          CONFIG_ATH11K_MEM_PROFILE_512M=y
+          CONFIG_PACKAGE_sqm-scripts-nss=y
+          CONFIG_PACKAGE_kmod-qca-nss-crypto=y
+          
+          # WiFi配置
+          CONFIG_PACKAGE_kmod-ath11k=y
+          CONFIG_PACKAGE_kmod-ath11k-ahb=y
+          CONFIG_PACKAGE_ath11k-firmware-ipq6018=y
+          CONFIG_PACKAGE_hostapd-common=y
+          CONFIG_PACKAGE_wpad-openssl=y
+          
+          # 基础包
+          CONFIG_PACKAGE_luci=y
+          CONFIG_PACKAGE_luci-ssl-openssl=y
+          CONFIG_PACKAGE_luci-theme-argon=y
+          CONFIG_PACKAGE_curl=y
+          CONFIG_PACKAGE_wget-ssl=y
+          
+          # DAE相关包
+          CONFIG_PACKAGE_dae=y
+          CONFIG_PACKAGE_luci-app-dae=y
+          CONFIG_PACKAGE_v2ray-geodata=y
+          
+          # 语言包
+          CONFIG_LUCI_LANG_zh_Hans=y
+          EOF
+          
+          # 添加自定义软件包（如果有输入）
+          if [ -n "${{ inputs.CUSTOM_PACKAGES }}" ]; then
+            echo "添加自定义软件包: ${{ inputs.CUSTOM_PACKAGES }}"
+            for package in ${{ inputs.CUSTOM_PACKAGES }}; do
+              echo "CONFIG_PACKAGE_$package=y" >> .config
+            done
+          fi
+
+      - name: 应用系统设置
+        run: |
+          cd $WRT_DIR
+          
+          # 复制自定义文件
+          if [ -d "$GITHUB_WORKSPACE/files" ]; then
+            cp -rf $GITHUB_WORKSPACE/files/* ./
+          fi
+          
+          # 应用自定义系统设置
+          mkdir -p files/etc/uci-defaults
+          
+          cat > files/etc/uci-defaults/99-custom-settings << EOF
+          #!/bin/sh
+          
+          # 设置主机名
+          uci set system.@system[0].hostname='$WRT_NAME'
+          
+          # 设置时区
+          uci set system.@system[0].zonename='Asia/Shanghai'
+          uci set system.@system[0].timezone='CST-8'
+          
+          # 设置LAN IP
+          uci set network.lan.ipaddr='$WRT_IP'
+          uci set network.lan.netmask='255.255.255.0'
+          
+          # 设置WiFi
+          uci set wireless.radio0.disabled='0'
+          uci set wireless.radio1.disabled='0'
+          uci set wireless.default_radio0.ssid='$WRT_SSID'
+          uci set wireless.default_radio1.ssid='$WRT_SSID'
+          uci set wireless.default_radio0.encryption='psk2'
+          uci set wireless.default_radio1.encryption='psk2'
+          uci set wireless.default_radio0.key='$WRT_WORD'
+          uci set wireless.default_radio1.key='$WRT_WORD'
+          
+          # 提交设置
+          uci commit
+          
+          exit 0
+          EOF
+          
+          chmod +x files/etc/uci-defaults/99-custom-settings
+          
+          # 运行自定义设置脚本
+          if [ -f "$GITHUB_WORKSPACE/Scripts/Settings.sh" ]; then
+            $GITHUB_WORKSPACE/Scripts/Settings.sh
+          fi
+
+      - name: 生成配置文件
+        run: |
+          cd $WRT_DIR
+          make defconfig
+          
+          # 显示最终配置
+          echo "=== 最终配置文件 ==="
+          cat .config | grep -v "^#" | grep -v "^$"
+
+      - name: 上传配置文件
+        if: ${{ inputs.TEST_ONLY == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: config-re-cs-02-${{ env.WRT_DATE }}
+          path: ${{ env.WRT_DIR }}/.config
+
+      - name: 下载依赖
+        if: ${{ inputs.TEST_ONLY != true }}
+        run: |
+          cd $WRT_DIR
+          make download -j8
+          find dl -size -1024c -exec ls -l {} \;
+          find dl -size -1024c -exec rm -f {} \;
+
+      - name: 编译固件
+        if: ${{ inputs.TEST_ONLY != true }}
+        run: |
+          cd $WRT_DIR
+          echo -e "$(nproc) 线程编译"
+          make -j$(nproc) || make V=s -j1
+          
+          echo "编译完成，检查输出文件："
+          ls -la bin/targets/*/*/
+
+      - name: 整理固件文件
+        if: ${{ inputs.TEST_ONLY != true }}
+        run: |
+          cd $WRT_DIR/bin/targets/*/*
+          
+          # 重命名文件
+          for file in *; do
+            if [[ $file == *"jdcloud_re-cs-02"* ]]; then
+              new_name=$(echo $file | sed "s/jdcloud_re-cs-02/RE-CS-02-$WRT_DATE/g")
+              mv "$file" "$new_name"
+              echo "重命名: $file -> $new_name"
+            fi
+          done
+          
+          # 删除不需要的文件
+          rm -f *-initramfs-*
+          rm -f *.buildinfo
+          rm -f *.manifest
+          
+          ls -la
+
+      - name: 上传固件
+        if: ${{ inputs.TEST_ONLY != true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-CS-02-firmware-${{ env.WRT_DATE }}
+          path: ${{ env.WRT_DIR }}/bin/targets/*/*/
+
+      - name: 创建发布
+        if: ${{ inputs.TEST_ONLY != true && github.event_name == 'schedule' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.WRT_DATE }}
+          name: RE-CS-02 WiFi 固件 ${{ env.WRT_DATE }}
+          body: |
+            ## RE-CS-02 WiFi 固件发布 ${{ env.WRT_DATE }}
+            
+            ### 固件信息
+            - 目标设备: JDCloud RE-CS-02
+            - 构建时间: ${{ env.WRT_DATE }}
+            - 源码仓库: ${{ env.WRT_REPO }}
+            - 源码分支: ${{ env.WRT_BRANCH }}
+            - WiFi名称: ${{ env.WRT_SSID }}
+            - LAN地址: ${{ env.WRT_IP }}
+            
+            ### 主要特性
+            - ✅ WiFi支持（2.4G + 5G双频）
+            - ✅ NSS硬件加速
+            - ✅ DAE透明代理
+            - ✅ Argon主题
+            - ✅ 中文界面
+            
+            ### 安装方法
+            1. 下载对应的固件文件
+            2. 通过Web界面或TFTP方式刷入固件
+            3. 首次启动后访问 ${{ env.WRT_IP }} 进行配置
+            
+            ### 默认设置
+            - 用户名: root
+            - 密码: 无（首次登录会要求设置）
+            - WiFi名称: ${{ env.WRT_SSID }}
+            - WiFi密码: ${{ env.WRT_WORD }}
+            - LAN地址: ${{ env.WRT_IP }}
+          files: ${{ env.WRT_DIR }}/bin/targets/*/*/RE-CS-02-*
+          prerelease: false
+          generate_release_notes: false
+
+      - name: 清理
+        if: always()
+        run: |
+          # 清理构建文件以释放空间
+          rm -rf $WRT_DIR/build_dir
+          rm -rf $WRT_DIR/staging_dir
+          rm -rf $WRT_DIR/tmp
