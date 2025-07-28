@@ -1,0 +1,41 @@
+name: 编译京东云雅典娜-fantastic源
+
+on:
+  workflow_dispatch:
+    inputs:
+      PACKAGE:
+        description: '编译京东云雅典娜fantastic源'
+        required: false
+        type: string
+      TEST:
+        description: '仅输出配置文件，不编译固件。'
+        default: false
+        required: false
+        type: boolean
+
+permissions: write-all
+
+jobs:
+  config:
+    name: ${{ matrix.CONFIG }}
+    strategy:
+      fail-fast: false
+      matrix:
+        CONFIG: [RE-CS-02-WIFI]
+        SOURCE: [VIKINGYFY/immortalwrt]
+        BRANCH: [main]
+    uses: ./.github/workflows/WRT-CORE-FANTASTIC.yml
+    with:
+      WRT_CONFIG: ${{ matrix.CONFIG }}
+      WRT_THEME: argon
+      WRT_NAME: QWRT
+      WRT_SSID: QWRT
+      WRT_WORD: 12345678
+      WRT_IP: 172.16.3.1
+      WRT_PW: 无
+      WRT_REPO: https://github.com/${{ matrix.SOURCE }}.git
+      WRT_BRANCH: ${{ matrix.BRANCH }}
+      WRT_SOURCE: ${{ matrix.SOURCE }}
+      WRT_PACKAGE: ${{ inputs.PACKAGE }}
+      WRT_TEST: ${{ inputs.TEST }}
+      CI_NAME: ${{ github.workflow }}
