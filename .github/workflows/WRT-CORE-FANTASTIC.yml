@@ -149,13 +149,35 @@ jobs:
             done
           fi
 
+
       - name: Add fantastic-packages feed
         run: |
           cd ./wrt/
-          echo "https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci/packages.adb" >> feeds.conf.default
-          echo "https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages/packages.adb" >> feeds.conf.default
-          echo "https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special/packages.adb" >> feeds.conf.default
-
+          # 设置正确的 umask
+          umask 022
+          
+          # 备份原始的 feeds.conf.default
+          cp feeds.conf.default feeds.conf.default.bak
+          
+          # 克隆 fantastic-packages 仓库（包含子模块）
+          git clone --branch master --no-tags --recurse-submodules https://github.com/fantastic-packages/packages.git fantastic_packages
+          
+          # 更新子模块（确保完整性）
+          cd fantastic_packages
+          git submodule update --init --recursive
+          cd ..
+          
+          # 添加 fantastic-packages 的多个 feed 源
+          cat <<-EOF >> feeds.conf.default
+          src-link fantastic_packages_packages fantastic_packages/feeds/packages
+          src-link fantastic_packages_luci fantastic_packages/feeds/luci
+          src-link fantastic_packages_special fantastic_packages/feeds/special
+          EOF
+          
+          # 显示添加的内容以便调试
+          echo "=== feeds.conf.default content ==="
+          cat feeds.conf.default
+          echo "=================================="
 
       - name: Update Feeds
         run: |
