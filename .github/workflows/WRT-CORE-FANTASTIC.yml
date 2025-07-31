@@ -152,7 +152,7 @@ jobs:
       - name: Add fantastic-packages feed
         run: |
           cd ./wrt/
-          echo "src-git fake https://github.com/fantastic-packages/packages.git" >> feeds.conf.default
+          echo "src/gz fantastic-packages https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/" >> feeds.conf.default
 
       - name: Update Feeds
         run: |
