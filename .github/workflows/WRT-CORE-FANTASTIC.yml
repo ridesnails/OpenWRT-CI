@@ -148,8 +148,6 @@ jobs:
               find "$dir" -type f -exec touch {} +
             done
           fi
-
-
       - name: Add fantastic-packages precompiled feed
         run: |
           cd ./wrt/
@@ -161,14 +159,19 @@ jobs:
             cp feeds.conf.default feeds.conf
           fi
           
+          # 显示原始配置
+          echo "=== Original feeds.conf ==="
+          cat feeds.conf
+          echo "=========================="
+          
           # 添加 fantastic-packages 预编译源
-          cat >> feeds.conf << 'EOF'
-            # fantastic-packages precompiled feeds
-            src fantastic_packages https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages
-            src fantastic_luci https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci  
-            src fantastic_special https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special
-            EOF
-                      
+          echo "" >> feeds.conf
+          echo "# fantastic-packages precompiled feeds" >> feeds.conf
+          echo "src fantastic_packages https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages" >> feeds.conf
+          echo "src fantastic_luci https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci" >> feeds.conf
+          echo "src fantastic_special https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special" >> feeds.conf
+          
+          # 显示修改后的配置
           echo "=== Final feeds.conf ==="
           cat feeds.conf
           echo "========================"
