@@ -151,42 +151,18 @@ jobs:
       - name: Add fantastic-packages feed
         run: |
           cd ./wrt/
-          # 备份原始配置
-          cp feeds.conf.default feeds.conf.default.bak
+          # 创建自定义的 opkg 配置目录
+          mkdir -p files/etc/opkg/
           
-          # 显示原始配置
-          echo "=== Original feeds.conf.default ==="
-          cat feeds.conf.default
-          echo "=================================="
+          # 添加 fantastic-packages 的官方源到 opkg 配置
+          echo "# fantastic-packages official sources" > files/etc/opkg/customfeeds.conf
+          echo "src/gz fantastic_packages https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages" >> files/etc/opkg/customfeeds.conf
+          echo "src/gz fantastic_luci https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci" >> files/etc/opkg/customfeeds.conf
+          echo "src/gz fantastic_special https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special" >> files/etc/opkg/customfeeds.conf
           
-          # 克隆 fantastic-packages 仓库（使用官方方法1）
-          umask 022
-          git clone --branch master --no-tags --recurse-submodules https://github.com/fantastic-packages/packages.git fantastic_packages
-          cd fantastic_packages
-          git submodule update --init --recursive
-          cd ..
-          
-          # 添加 fantastic-packages 的 feed 源到 feeds.conf.default
-          echo "" >> feeds.conf.default
-          echo "# fantastic-packages feeds" >> feeds.conf.default
-          echo "src-link fantastic_packages_packages fantastic_packages/feeds/packages" >> feeds.conf.default
-          echo "src-link fantastic_packages_luci fantastic_packages/feeds/luci" >> feeds.conf.default
-          echo "src-link fantastic_packages_special fantastic_packages/feeds/special" >> feeds.conf.default
-          
-          # 显示修改后的配置
-          echo "=== Final feeds.conf.default ==="
-          cat feeds.conf.default
-          echo "=================================="
-          
-          # 验证目录结构
-          echo "=== Checking fantastic_packages structure ==="
-          ls -la fantastic_packages/
-          if [ -d "fantastic_packages/feeds" ]; then
-            ls -la fantastic_packages/feeds/
-          else
-            echo "Warning: fantastic_packages/feeds directory not found"
-          fi
-          echo "=============================================="
+          echo "=== Added fantastic-packages official sources ==="
+          cat files/etc/opkg/customfeeds.conf
+          echo "================================================="
       - name: Update Feeds
         run: |
           cd ./wrt/
