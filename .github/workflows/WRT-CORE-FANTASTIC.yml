@@ -152,7 +152,10 @@ jobs:
       - name: Add fantastic-packages feed
         run: |
           cd ./wrt/
-          echo "src/gz fantastic-packages https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/" >> feeds.conf.default
+          echo "https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci/packages.adb" >> feeds.conf.default
+          echo "https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages/packages.adb" >> feeds.conf.default
+          echo "https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special/packages.adb" >> feeds.conf.default
+
 
       - name: Update Feeds
         run: |
