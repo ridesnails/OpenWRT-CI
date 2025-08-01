@@ -152,6 +152,7 @@ jobs:
         run: |
           cd ./wrt/
           # 创建自定义的 opkg 配置目录
+          mkdir -p files/etc/apk/repositories.d
           if [ ! -f files/etc/apk/repositories.d/customfeeds.list ]; then
               echo "# Placeholder for custom feeds" > files/etc/apk/repositories.d/customfeeds.list
           fi          
