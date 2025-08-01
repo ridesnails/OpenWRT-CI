@@ -155,13 +155,13 @@ jobs:
           mkdir -p files/etc/opkg/
           
           # 添加 fantastic-packages 的官方源到 opkg 配置
-          echo "# fantastic-packages official sources" > files/etc/opkg/customfeeds.conf
-          echo "src/gz fantastic_packages https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages" >> files/etc/opkg/customfeeds.conf
-          echo "src/gz fantastic_luci https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci" >> files/etc/opkg/customfeeds.conf
-          echo "src/gz fantastic_special https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special" >> files/etc/opkg/customfeeds.conf
+          echo "# fantastic-packages official sources" > files/etc/apk/repositories.d/customfeeds.list
+          echo "src/gz fantastic_packages https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages" >> files/etc/apk/repositories.d/customfeeds.list
+          echo "src/gz fantastic_luci https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci" >> files/etc/apk/repositories.d/customfeeds.list
+          echo "src/gz fantastic_special https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special" >> files/etc/apk/repositories.d/customfeeds.list
           
           echo "=== Added fantastic-packages official sources ==="
-          cat files/etc/opkg/customfeeds.conf
+          cat files/etc/apk/repositories.d/customfeeds.list
           echo "================================================="
       - name: Update Feeds
         run: |
