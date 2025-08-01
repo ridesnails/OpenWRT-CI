@@ -152,8 +152,9 @@ jobs:
         run: |
           cd ./wrt/
           # 创建自定义的 opkg 配置目录
-          mkdir -p files/etc/opkg/
-          
+          if [ ! -f files/etc/apk/repositories.d/customfeeds.list ]; then
+              echo "# Placeholder for custom feeds" > files/etc/apk/repositories.d/customfeeds.list
+          fi          
           # 添加 fantastic-packages 的官方源到 opkg 配置
           echo "# fantastic-packages official sources" > files/etc/apk/repositories.d/customfeeds.list
           echo "src/gz fantastic_packages https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages" >> files/etc/apk/repositories.d/customfeeds.list
