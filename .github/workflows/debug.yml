@@ -85,4 +85,6 @@ jobs:
           echo "The OpenWrt source code is in the 'wrt' directory."
           echo "Run 'cd wrt' to get started."
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
