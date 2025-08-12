@@ -1,0 +1,87 @@
+name: Debug Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      CONFIG:
+        description: 'The build configuration to use (e.g., IPQ807X-WIFI).'
+        default: 'IPQ807X-WIFI'
+        required: true
+        type: string
+      REPO:
+        description: 'The OpenWrt repository to clone.'
+        default: 'https://github.com/VIKINGYFY/immortalwrt.git'
+        required: true
+        type: string
+      BRANCH:
+        description: 'The repository branch to use.'
+        default: 'main'
+        required: true
+        type: string
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  WRT_CONFIG: ${{inputs.CONFIG}}
+  WRT_THEME: 'argon'
+  WRT_NAME: 'DAE-WRT'
+  WRT_SSID: 'DAE-WRT'
+  WRT_WORD: '12345678'
+  WRT_IP: '192.168.10.1'
+  WRT_PW: '无'
+  WRT_REPO: ${{inputs.REPO}}
+  WRT_BRANCH: ${{inputs.BRANCH}}
+  WRT_DIR: 'wrt'
+
+jobs:
+  debug:
+    name: Interactive Debug Session
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Projects
+        uses: actions/checkout@main
+
+      - name: Initialization Environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt -yqq update
+          sudo -E apt -yqq full-upgrade
+          sudo -E apt -yqq install dos2unix libfuse-dev
+          sudo bash $GITHUB_WORKSPACE/Scripts/init_build_environment.sh
+          sudo -E systemctl daemon-reload
+          sudo -E timedatectl set-timezone "Asia/Shanghai"
+
+      - name: Clone OpenWrt Code
+        run: |
+          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
+
+      - name: Check Scripts
+        run: |
+          find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
+
+      - name: Update Feeds
+        run: |
+          cd ./wrt/
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+      - name: Custom Packages and Settings
+        run: |
+          . $GITHUB_WORKSPACE/Scripts/function.sh
+          cd ./wrt/package/
+          $GITHUB_WORKSPACE/Scripts/Packages.sh
+          $GITHUB_WORKSPACE/Scripts/Handles.sh
+          cd ..
+          generate_config
+          $GITHUB_WORKSPACE/Scripts/Settings.sh
+          make defconfig -j$(nproc)
+
+      - name: Environment is Ready
+        run: |
+          echo "The build environment is ready."
+          echo "You can now connect via SSH to debug."
+          echo "The OpenWrt source code is in the 'wrt' directory."
+          echo "Run 'cd wrt' to get started."
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
