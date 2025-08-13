@@ -161,7 +161,14 @@ jobs:
       - name: Update Feeds
         run: |
           cd ./wrt/
-
+          # 为 APK 包管理器添加 fantastic-packages 自定义源
+          mkdir -p ./files/etc/apk/repositories.d/
+          cat <<-EOF > ./files/etc/apk/repositories.d/customfeeds.list
+          # Fantastic Packages Official Feeds
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci/packages.adb
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages/packages.adb
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special/packages.adb
+          EOF
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
@@ -181,14 +188,7 @@ jobs:
           
           $GITHUB_WORKSPACE/Scripts/Settings.sh
 
-          # 为 APK 包管理器添加 fantastic-packages 自定义源
-          mkdir -p ./files/etc/apk/repositories.d/
-          cat <<-EOF > ./files/etc/apk/repositories.d/customfeeds.list
-          # Fantastic Packages Official Feeds
-          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci/packages.adb
-          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages/packages.adb
-          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special/packages.adb
-          EOF
+
 
 
           make defconfig -j$(nproc) && make clean -j$(nproc)
