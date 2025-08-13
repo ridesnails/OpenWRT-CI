@@ -46,6 +46,12 @@ on:
       WRT_ARCH:
         required: false
         type: string
+    secrets:
+      WIFI_PASSWORD:
+        required: false
+      ADMIN_PASSWORD:
+        required: false     
+        
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   WRT_CONFIG: ${{inputs.WRT_CONFIG}}
