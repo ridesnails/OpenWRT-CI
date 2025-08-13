@@ -185,9 +185,9 @@ jobs:
           mkdir -p ./files/etc/apk/repositories.d/
           cat <<-EOF > ./files/etc/apk/repositories.d/customfeeds.list
           # Fantastic Packages Official Feeds
-          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/$WRT_ARCH/luci
-          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/$WRT_ARCH/packages
-          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/$WRT_ARCH/special
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci/packages.adb
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages/packages.adb
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special/packages.adb
           EOF
 
 
