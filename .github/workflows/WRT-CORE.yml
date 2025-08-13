@@ -277,10 +277,10 @@ jobs:
             平台：${{env.WRT_TARGET}}
 
             登录地址：${{env.WRT_IP}}
-            登录密码：${{env.WRT_PW}}
+            登录密码：********
 
             WIFI名称：${{env.WRT_SSID}}
-            WIFI密码：${{env.WRT_WORD}}
+            WIFI密码：********
 
             内核版本：${{env.WRT_KVER}}
             插件列表：${{env.WRT_LIST}}
