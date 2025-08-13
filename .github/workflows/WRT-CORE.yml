@@ -156,19 +156,6 @@ jobs:
                 find "$dir" -type f -exec touch {} +
             done
           fi            
-     
-      - name: Add fantastic-packages feed
-        run: |
-          cd ./wrt/
-          git clone --branch master --no-tags --recurse-submodules https://github.com/fantastic-packages/packages.git fantastic_packages
-          cd fantastic_packages
-          git submodule update --init --recursive
-          cd ..
-          cat <<-EOF >> feeds.conf.default
-          src-link fantastic_packages_packages fantastic_packages/feeds/packages
-          src-link fantastic_packages_luci fantastic_packages/feeds/luci
-          src-link fantastic_packages_special fantastic_packages/feeds/special
-          EOF
 
 
       - name: Update Feeds
@@ -193,6 +180,16 @@ jobs:
           generate_config && cat .config
           
           $GITHUB_WORKSPACE/Scripts/Settings.sh
+
+          # 为 APK 包管理器添加 fantastic-packages 自定义源
+          mkdir -p ./files/etc/apk/repositories.d/
+          cat <<-EOF > ./files/etc/apk/repositories.d/customfeeds.list
+          # Fantastic Packages Official Feeds
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/$WRT_ARCH/luci
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/$WRT_ARCH/packages
+          https://fantastic-packages.github.io/releases/SNAPSHOT/packages/$WRT_ARCH/special
+          EOF
+
 
           make defconfig -j$(nproc) && make clean -j$(nproc)
 
