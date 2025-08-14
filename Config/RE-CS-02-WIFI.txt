@@ -15,7 +15,7 @@ CONFIG_PACKAGE_luci-app-natmapt=y
 CONFIG_PACKAGE_luci-app-momo=y
 CONFIG_PACKAGE_luci-app-fakehttp=y
 CONFIG_PACKAGE_fakehttp=y
-
+CONFIG_PACKAGE_fantastic-packages-feeds=y
 #fakehttp 相关依赖
 CONFIG_DEFAULT_nftables=y
 CONFIG_PACKAGE_kmod-nfnetlink-queue=y
