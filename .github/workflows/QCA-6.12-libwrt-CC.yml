@@ -1,0 +1,257 @@
+---
+#CI项目
+name: QCA-6.12-libwrt-CC
+
+#CI计划
+on:
+  #自动编译：当Auto-Clean运行完成后
+  workflow_run:
+    workflows: ["Auto-Clean"]
+    types:
+      - completed
+  #手动编译
+  workflow_dispatch:
+    inputs:
+      PACKAGE:
+        description: '手动调整插件包，多个请用\n符号隔开。'
+        required: false
+        type: string
+      TEST:
+        description: '仅输出配置文件，不编译固件。'
+        default: false
+        required: false
+        type: boolean
+
+#CI权限
+permissions: write-all
+
+defaults:
+  run:
+    shell: bash
+
+#CI任务
+jobs:
+  build:
+    name: ${{ matrix.CONFIG }} @ libwrt-CC
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: qca612-libwrt-cc-${{ matrix.CONFIG }}
+      cancel-in-progress: false
+    strategy:
+      fail-fast: false
+      matrix:
+        CONFIG: [IPQ807X-NOWIFI, IPQ807X-WIFI, IPQ60XX-NOWIFI, IPQ60XX-WIFI]
+        SOURCE: [LiBwrt/openwrt-6.x]
+        BRANCH: [k6.12-nss]
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      WRT_CONFIG: ${{ matrix.CONFIG }}
+      WRT_THEME: argon
+      WRT_NAME: DAE-WRT
+      WRT_SSID: DAE-WRT
+      WRT_WORD: 12345678
+      WRT_IP: 192.168.10.1
+      WRT_PW: 无
+      WRT_REPO: https://github.com/${{ matrix.SOURCE }}.git
+      WRT_BRANCH: ${{ matrix.BRANCH }}
+      WRT_SOURCE: ${{ matrix.SOURCE }}
+      WRT_PACKAGE: ${{ inputs.PACKAGE }}
+      WRT_TEST: ${{ inputs.TEST }}
+      CI_NAME: ${{ github.workflow }}
+      CCACHE_DIR: ${{ github.workspace }}/wrt/.ccache
+      WRT_DATE: ''
+      WRT_HASH: ''
+      WRT_TARGET: ''
+      WRT_KVER: ''
+      WRT_LIST: ''
+    steps:
+      - name: Install BC
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt -yqq install bc
+
+      - name: Free Disk Space
+        uses: endersonmenezes/free-disk-space@v2
+        with:
+          remove_android: true
+          remove_dotnet: true
+          remove_haskell: true
+          remove_tool_cache: true
+          remove_swap: true
+          remove_packages: "azure-cli google-cloud-cli microsoft-edge-stable google-chrome-stable firefox postgresql* temurin-* *llvm* mysql* dotnet-sdk-*"
+          remove_packages_one_command: true
+          remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/share/chromium /usr/local/share/powershell"
+          testing: false
+
+      - name: Checkout Projects
+        uses: actions/checkout@main
+
+      - name: Initialization Environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt -yqq purge firefox
+          sudo -E apt -yqq update
+          sudo -E apt -yqq full-upgrade
+          sudo -E apt -yqq autoremove --purge
+          sudo -E apt -yqq autoclean
+          sudo -E apt -yqq clean
+          sudo -E apt -yqq install dos2unix libfuse-dev
+          sudo bash $GITHUB_WORKSPACE/Scripts/init_build_environment.sh
+          sudo -E systemctl daemon-reload
+          sudo -E timedatectl set-timezone "Asia/Shanghai"
+
+      - name: Initialization Values
+        run: |
+          echo "WRT_DATE=$(TZ=UTC-8 date +\"%y.%m.%d-%H.%M.%S\")" >> $GITHUB_ENV
+          echo "WRT_MARK=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 1)" >> $GITHUB_ENV
+          echo "WRT_VER=$(echo $WRT_REPO | cut -d '/' -f 4)-$WRT_BRANCH" >> $GITHUB_ENV
+          echo "WRT_TARGET=$(grep -m 1 -oP '^CONFIG_TARGET_\\K[\\w]+(?==y)' ./Config/$WRT_CONFIG.txt | tr '[:lower:]' '[:upper:]')" >> $GITHUB_ENV
+          echo "WRT_KVER=none" >> $GITHUB_ENV
+          echo "WRT_LIST=none" >> $GITHUB_ENV
+          if [[ -z "$WRT_ARCH" ]]; then
+            export WRT_ARCH=$(sed -n 's/.*_DEVICE_\(.*\)_DEVICE_.*/\1/p' $GITHUB_WORKSPACE/Config/$WRT_CONFIG.txt | head -n 1)
+            echo "WRT_ARCH=$WRT_ARCH" >> $GITHUB_ENV
+          else
+            echo "WRT_ARCH=$WRT_ARCH" >> $GITHUB_ENV
+          fi
+          echo "${{ matrix.SOURCE }}/${{ matrix.BRANCH }}" > "$GITHUB_WORKSPACE/repo_flag"
+
+      - name: Clone Source
+        run: |
+          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
+          cd ./wrt/
+          echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
+
+      - name: Normalize Scripts
+        run: |
+          find ./ -maxdepth 3 -type f -iregex ".*(txt|sh)$" -exec dos2unix {} \; -exec chmod +x {} \;
+
+      - name: Prepare Cache Directories
+        run: |
+          mkdir -p wrt/.ccache
+          printf 'max_size = 5G\n' > wrt/.ccache/ccache.conf
+          mkdir -p wrt/dl
+
+      - name: Cache Toolchain & Downloads
+        id: cache-toolchain
+        uses: actions/cache@v4
+        with:
+          path: |
+            wrt/.ccache
+            wrt/dl
+            wrt/staging_dir
+            wrt/build_dir/host
+            wrt/build_dir/toolchain-*
+          key: libwrt-cc-${{ matrix.CONFIG }}-${{ matrix.BRANCH }}-${{ hashFiles('Config/**/*.txt', 'Scripts/**/*.sh', 'package/**/*.mk') }}
+          restore-keys: |
+            libwrt-cc-${{ matrix.CONFIG }}-${{ matrix.BRANCH }}-
+            libwrt-cc-${{ matrix.CONFIG }}-
+            libwrt-cc-
+
+      - name: Warm staging timestamps
+        if: steps.cache-toolchain.outputs.cache-hit == 'true'
+        run: |
+          if [ -d "wrt/staging_dir" ]; then
+            find "wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r dir; do
+              find "$dir" -type f -exec touch {} +
+            done
+          fi
+
+      - name: Update Feeds
+        run: |
+          cd ./wrt/
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+      - name: Custom Packages
+        run: |
+          cd ./wrt/package/
+          $GITHUB_WORKSPACE/Scripts/Packages.sh
+          $GITHUB_WORKSPACE/Scripts/Handles.sh
+
+      - name: Configure Build
+        run: |
+          . $GITHUB_WORKSPACE/Scripts/function.sh
+          cd ./wrt/
+          generate_config && cat .config
+          $GITHUB_WORKSPACE/Scripts/Settings.sh
+          make defconfig -j$(nproc)
+
+      - name: Download Sources
+        if: env.WRT_TEST != 'true'
+        run: |
+          cd ./wrt/
+          make download -j$(nproc)
+
+      - name: Compile Firmware
+        if: env.WRT_TEST != 'true'
+        run: |
+          cd ./wrt/
+          make -j$(nproc) || make -j1 V=s
+
+      - name: ccache Status
+        if: always()
+        run: |
+          if command -v ccache >/dev/null; then
+            ccache -s || true
+          fi
+
+      - name: Machine Information
+        run: |
+          cd ./wrt/
+          echo "======================="
+          lscpu | grep -E "name|Core|Thread"
+          echo "======================="
+          df -h
+          echo "======================="
+          du -h --max-depth=1
+          echo "======================="
+
+      - name: Package Firmware
+        run: |
+          cd ./wrt/
+          mkdir -p ./upload/
+          cp -f ./.config ./upload/Config-"$WRT_CONFIG"-"$WRT_VER"-"$WRT_DATE".txt
+          if [[ $WRT_TEST != 'true' ]]; then
+            echo "WRT_KVER=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^kernel - \K[\d.]+' {} \;)" >> $GITHUB_ENV
+            echo "WRT_LIST=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^luci-(app|theme)[^ ]*' {} \; | tr '\n' ' ')" >> $GITHUB_ENV
+            find ./bin/targets/ -iregex ".*(buildinfo|json|sha256sums|packages)$" -exec rm -rf {} +
+            find ./bin/targets/ -type f -iname "*$WRT_TARGET*" | while read -r FILE; do
+              EXT=$(basename "$FILE" | cut -d '.' -f 2-)
+              NAME=$(basename "$FILE" | cut -d '.' -f 1 | grep -io "\($WRT_TARGET\).*")
+              NEW_FILE="$WRT_VER"-"$NAME"-"$WRT_DATE"."$EXT"
+              mv -f "$FILE" ./upload/"$NEW_FILE"
+            done
+            find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
+            rm -rf ./bin
+          fi
+
+      - name: Release Firmware
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.CI_NAME }}-${{ env.WRT_CONFIG }}_${{ env.WRT_DATE }}
+          files: ./wrt/upload/*.*
+          body: |
+            这是个平台固件包，内含多个设备！
+            请注意选择你需要的设备固件！
+            不要问，刷就完事了！
+
+            全系带开源硬件加速，别问了！
+
+            源码：${{env.WRT_REPO}}
+            分支：${{env.WRT_BRANCH}}
+            提交：${{env.WRT_HASH}}
+
+            配置：${{env.WRT_CONFIG}}
+            平台：${{env.WRT_TARGET}}
+
+            登录地址：${{env.WRT_IP}}
+            登录密码：${{env.WRT_PW}}
+
+            WIFI名称：${{env.WRT_SSID}}
+            WIFI密码：${{env.WRT_WORD}}
+
+            内核版本：${{env.WRT_KVER}}
+            插件列表：${{env.WRT_LIST}}
