@@ -50,3 +50,5 @@ CONFIG_PACKAGE_luci-app-natmapt=y
 CONFIG_PACKAGE_natmapt=y
 CONFIG_PACKAGE_fantastic-keyring=y
 CONFIG_PACKAGE_fakehttp=y
+CONFIG_PACKAGE_luci-compat=y
+CONFIG_PACKAGE_luci-lib-ipkg=y
