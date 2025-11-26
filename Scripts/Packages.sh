@@ -72,6 +72,10 @@ UPDATE_PACKAGE "viking" "VIKINGYFY/packages" "main" "" "luci-app-timewol luci-ap
 
 UPDATE_PACKAGE "luci-app-daed" "QiuSimons/luci-app-daed" "master"
 UPDATE_PACKAGE "luci-app-pushbot" "zzsj0928/luci-app-pushbot" "master"
+
+# 添加 fantastic-packages 源 (Snapshot 分支，递归子模块)
+# 官方文档推荐使用 snapshot 分支以获得最新功能，并需要递归拉取子模块
+git clone --depth 1 --branch snapshot --single-branch --no-tags --recurse-submodules https://github.com/fantastic-packages/packages.git fantastic_packages
 #更新软件包版本
 UPDATE_VERSION() {
 	local PKG_NAME=$1
