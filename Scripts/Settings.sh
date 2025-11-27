@@ -37,6 +37,15 @@ sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 #修复dropbear
 #sed -i "s/Interface/DirectInterface/" ./package/network/services/dropbear/files/dropbear.config
 sed -i "/Interface/d" ./package/network/services/dropbear/files/dropbear.config
+
+# 添加 fantastic-packages 在线 feeds (使用 SNAPSHOT 源)
+mkdir -p ../files/etc/apk/repositories.d
+cat <<EOF > ../files/etc/apk/repositories.d/customfeeds.list
+https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/packages/packages.adb
+https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/luci/packages.adb
+https://fantastic-packages.github.io/releases/SNAPSHOT/packages/aarch64_cortex-a53/special/packages.adb
+EOF
+
 #拷贝files 文件夹到编译目录
 cp -r ../files ./
 
